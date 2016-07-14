@@ -14,7 +14,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get install -y apt-utils
 
 # Setting up locales
-RUN apt-get install -y locales
+RUN apt-get -y update && apt-get install -y locales
 RUN echo en_US.UTF-8 UTF-8 | tee /etc/locale.gen \
     && locale-gen \
     && dpkg-reconfigure locales \
@@ -28,7 +28,7 @@ RUN echo "Europe/Amsterdam" | tee /etc/timezone \
     && dpkg-reconfigure tzdata
 
 # Install some basic tools
-RUN apt-get install -y sudo man git htop vim mc \
+RUN apt-get -y update && apt-get install -y sudo man git htop vim mc \
     software-properties-common python-software-properties \
     apt-transport-https lsb-release wget lynx telnet
 
