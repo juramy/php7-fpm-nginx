@@ -59,6 +59,10 @@ RUN wget -O - https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer \
     && composer self-update
 
+# Install nodejs and npm
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs
+
 # Install nginx and supervisord from dotdeb
 RUN apt-get -y update && apt-get -y install supervisor nginx
 
