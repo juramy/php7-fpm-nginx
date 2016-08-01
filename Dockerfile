@@ -30,7 +30,8 @@ RUN echo "Europe/Amsterdam" | tee /etc/timezone \
 # Install some basic tools
 RUN apt-get -y update && apt-get install -y sudo man git htop vim mc \
     software-properties-common python-software-properties \
-    apt-transport-https lsb-release wget lynx telnet curl
+    apt-transport-https lsb-release wget lynx telnet curl \
+    parallel
 
 # Set up users and permissions
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
