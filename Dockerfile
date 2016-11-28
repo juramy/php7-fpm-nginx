@@ -33,6 +33,11 @@ RUN apt-get -y update && apt-get install -y sudo man git htop vim mc \
     apt-transport-https lsb-release wget lynx telnet curl \
     parallel bzip2
 
+# Install local mail transport agent
+RUN apt-get -y update && apt-get install -y exim4-daemon-light
+COPY update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf
+RUN update-exim4.conf && service exim4 restart
+
 # Set up users and permissions
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
     && adduser php staff
