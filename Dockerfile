@@ -1,5 +1,5 @@
 # Starting point
-FROM debian:stable
+FROM debian:latest
 
 # Start in the DocumentRoot
 WORKDIR /var/www/html
