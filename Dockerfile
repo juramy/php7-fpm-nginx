@@ -42,7 +42,7 @@ RUN update-exim4.conf && service exim4 restart
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
     && adduser php staff
 
-# Install PHP 7 and some common extensions
+# Install PHP 7.1 and some common extensions
 RUN wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
 RUN echo "deb http://packages.dotdeb.org $(lsb_release -sc) all" | tee /etc/apt/sources.list.d/php.list
 RUN echo "deb-src http://packages.dotdeb.org $(lsb_release -sc) all" | tee -a /etc/apt/sources.list.d/php.list
