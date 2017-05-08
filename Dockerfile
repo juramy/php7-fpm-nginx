@@ -44,8 +44,8 @@ RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
 
 # Install PHP 7 and some common extensions
 RUN wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
-RUN echo "deb http://packages.dotdeb.org $(lsb_release -sc) all" | tee /etc/apt/sources.list.d/php.list
-RUN echo "deb-src http://packages.dotdeb.org $(lsb_release -sc) all" | tee -a /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.dotdeb.org $(lsb_release -sc) all" | tee /etc/apt/sources.list.d/php.list
+RUN echo "deb-src https://packages.dotdeb.org $(lsb_release -sc) all" | tee -a /etc/apt/sources.list.d/php.list
 RUN apt-get -y update \
     && apt-get install -y php7.0-fpm php7.0-cli php7.0-mbstring php7.0-mcrypt php7.0-intl \
     php7.0-mysql php7.0-redis php7.0-memcached php7.0-gd php7.0-curl php7.0-xsl
