@@ -42,24 +42,23 @@ RUN update-exim4.conf && service exim4 restart
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
     && adduser php staff
 
-# Install PHP 7.1 and some common extensions
-RUN apt-get install ca-certificates
-RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org/php $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
-RUN echo "deb-src https://packages.sury.org/php $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php.list
+# Install PHP 7 and some common extensions
+RUN wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+RUN echo "deb http://packages.dotdeb.org $(lsb_release -sc) all" | tee /etc/apt/sources.list.d/php.list
+RUN echo "deb-src http://packages.dotdeb.org $(lsb_release -sc) all" | tee -a /etc/apt/sources.list.d/php.list
 RUN apt-get -y update \
-    && apt-get install -y php7.1-fpm php7.1-cli php7.1-mbstring php7.1-mcrypt php7.1-intl \
-    php7.1-mysql php7.1-redis php7.1-memcached php7.1-gd php7.1-curl php7.1-xsl
+    && apt-get install -y php7.0-fpm php7.0-cli php7.0-mbstring php7.0-mcrypt php7.0-intl \
+    php7.0-mysql php7.0-redis php7.0-memcached php7.0-gd php7.0-curl php7.0-xsl
 # Update some PHP settings
-RUN sed -i "s/^;\(date\.timezone\(\s*\)\?=\).*/\1 Europe\/Amsterdam/" /etc/php/7.1/cli/php.ini
-RUN sed -i "s/^;\(date\.timezone\(\s*\)\?=\).*/\1 Europe\/Amsterdam/" /etc/php/7.1/fpm/php.ini
+RUN sed -i "s/^;\(date\.timezone\(\s*\)\?=\).*/\1 Europe\/Amsterdam/" /etc/php/7.0/cli/php.ini
+RUN sed -i "s/^;\(date\.timezone\(\s*\)\?=\).*/\1 Europe\/Amsterdam/" /etc/php/7.0/fpm/php.ini
 # Composer updates can require a lot of memory
-RUN sed -i "s/^\(memory_limit\(\s*\)\?=\).*/\1 4G/" /etc/php/7.1/cli/php.ini
-RUN sed -i "s/^\(memory_limit\(\s*\)\?=\).*/\1 256M/" /etc/php/7.1/fpm/php.ini
-RUN phpenmod -v 7.1 -s ALL mbstring mcrypt intl pdo_mysql redis memcached gd curl xml xsl
+RUN sed -i "s/^\(memory_limit\(\s*\)\?=\).*/\1 4G/" /etc/php/7.0/cli/php.ini
+RUN sed -i "s/^\(memory_limit\(\s*\)\?=\).*/\1 256M/" /etc/php/7.0/fpm/php.ini
+RUN phpenmod -v 7.0 -s ALL mbstring mcrypt intl pdo_mysql redis memcached gd curl xml xsl
 
 # Copy in php-fpm config file
-COPY php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+COPY php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 
 # Install composer
 RUN wget -O - https://getcomposer.org/installer | php \
@@ -70,7 +69,7 @@ RUN wget -O - https://getcomposer.org/installer | php \
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get install -y nodejs
 
-# Install nginx and supervisord
+# Install nginx and supervisord from dotdeb
 RUN apt-get -y update && apt-get -y install supervisor nginx
 
 # One last update for everything
