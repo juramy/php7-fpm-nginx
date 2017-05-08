@@ -45,8 +45,8 @@ RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
 # Install PHP 7.1 and some common extensions
 RUN apt-get install ca-certificates
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-RUN echo "deb https://packages.sury.org $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
-RUN echo "deb-src https://packages.sury.org $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php.list
+RUN echo "deb https://packages.sury.org/php $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+RUN echo "deb-src https://packages.sury.org/php $(lsb_release -sc) main" | tee -a /etc/apt/sources.list.d/php.list
 RUN apt-get -y update \
     && apt-get install -y php7.1-fpm php7.1-cli php7.1-mbstring php7.1-mcrypt php7.1-intl \
     php7.1-mysql php7.1-redis php7.1-memcached php7.1-gd php7.1-curl php7.1-xsl
