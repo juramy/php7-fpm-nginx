@@ -75,7 +75,7 @@ RUN apt-get -y update && apt-get -y install supervisor nginx
 # One last update for everything
 RUN apt-get -y update && apt-get -y dist-upgrade
 
-# Clean up
+# Clean up apt cache and temp folders
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add application
