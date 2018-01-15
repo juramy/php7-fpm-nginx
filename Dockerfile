@@ -42,6 +42,9 @@ RUN update-exim4.conf && service exim4 restart
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
     && adduser php staff
 
+# `gnupg` is required for `apt-key add -`
+RUN apt-get update && apt-get install -my wget gnupg
+
 # Install PHP 7 and some common extensions
 RUN wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
 RUN echo "deb https://packages.dotdeb.org $(lsb_release -sc) all" | tee /etc/apt/sources.list.d/php.list
