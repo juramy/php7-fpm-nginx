@@ -31,7 +31,7 @@ RUN echo "Europe/Amsterdam" | tee /etc/timezone \
 RUN apt-get -y update && apt-get install -y sudo man git htop vim mc \
     software-properties-common \
     apt-transport-https lsb-release wget lynx telnet curl \
-    parallel bzip2 acl
+    parallel bzip2 acl gnupg
 
 # Install local mail transport agent
 RUN apt-get -y update && apt-get install -y exim4-daemon-light
@@ -41,9 +41,6 @@ RUN update-exim4.conf && service exim4 restart
 # Set up users and permissions
 RUN adduser --gecos '' --uid 1000 --gid 50 --disabled-password php \
     && adduser php staff
-
-# `gnupg` is required for `apt-key add -`
-RUN apt-get update && apt-get install -my wget gnupg
 
 # Install PHP 7 and some common extensions
 RUN wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
