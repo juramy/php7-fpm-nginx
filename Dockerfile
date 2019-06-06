@@ -18,7 +18,7 @@ RUN >&2 echo "# Installing some basic packages..." \
         apt-transport-https lsb-release wget lynx telnet curl \
         parallel bzip2 acl gnupg \
         exim4-daemon-light \
-        supervisor nginx nodejs
+        supervisor nginx
 
 RUN >&2 echo "# Configuring locales..." \
     && echo en_US.UTF-8 UTF-8 | tee /etc/locale.gen \
@@ -58,10 +58,10 @@ RUN >&2 echo "# Installing tooling (composer, nodejs)..." \
     && wget -O composer-installer.php 'https://getcomposer.org/installer' \
     && INSTALLER_SIGNATURE=$(openssl dgst --sha384 -hex composer-installer.php | sed 's/^.* \(.*\)$/\1/') \
     && if [ "$INSTALLER_SIGNATURE" != "$EXPECTED_SIGNATURE" ] ; then >&2 echo 'ERROR: Invalid installer signature' && exit 1 ; fi \
-    && php composer-installer.php \
-    && mv composer.phar /usr/local/bin/composer \
+    && php composer-installer.php --install-dir=/usr/local/bin --filename=composer \
     && rm composer-installer.php \
-    && curl -sL https://deb.nodesource.com/setup_6.x | bash -
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
+    && apt-get install -y nodejs
 
 RUN >&2 echo "# Ensure everything is up to date and cleaning up..." \
     && apt-get -y update && apt-get -y dist-upgrade \
