@@ -18,7 +18,8 @@ RUN >&2 echo "# Installing some basic packages..." \
         apt-transport-https lsb-release wget lynx telnet curl \
         parallel bzip2 acl gnupg \
         exim4-daemon-light \
-        supervisor nginx
+        supervisor nginx \
+        jpegoptim optipng
 
 RUN >&2 echo "# Configuring locales..." \
     && echo en_US.UTF-8 UTF-8 | tee /etc/locale.gen \
